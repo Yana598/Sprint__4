@@ -1,4 +1,4 @@
-package Sprint4;
+package pageObj;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -38,6 +38,8 @@ public class OrderPage {
     //локатор для всплывающей карточки с текстом "Заказ оформлен"
      private By isGood= By.xpath("//*[text()='Заказ оформлен']");
 
+     //локатор для куки
+    private By cookie = By.xpath(".//button[text()='да все привыкли']");
 
     public OrderPage(WebDriver driver) {
         this.driver = driver;
@@ -71,50 +73,42 @@ public class OrderPage {
     public void clickNext() {
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();",driver.findElement(next));
         driver.findElement(next).click();
-         new WebDriverWait(driver,3).until(driver -> (driver.findElement(whenData).isDisplayed()));
     }
 
     //метод для выбора станции метро *st -параметр,название станции
     public void setMetro(String st) {
         driver.findElement(metro).click();
-        //локатор для поиска станции с заданным параметром
-        By m = By.xpath(String.format(".//div[(text()='%s')]", st));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(m));
-        new WebDriverWait(driver,3).until(driver -> (driver.findElement(m).isDisplayed()));
-        driver.findElement(m).click();
-        //new WebDriverWait(driver, 3).until(driver -> (driver.findElement(metro).isDisplayed()));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(By.xpath(String.format(".//div[(text()='%s')]", st))));
+        driver.findElement(By.xpath(String.format(".//div[(text()='%s')]", st))).click();
+    }
+    public void clickCookie(){
+        if (driver.findElement(cookie).isDisplayed())
+        { driver.findElement(cookie).click();}
     }
 
     //метод для выбора цвета, text - цвет,параметр
     public void selectColor(String text){
-       //локатор для поиска цвета с переданным text
-       By color =By.xpath(".//input[@id='"+text+"']");
-       driver.findElement(color).click();
+       driver.findElement(By.xpath(".//input[@id='"+text+"']")).click();
     }
 
     //метод для нажатия на кнопку заказать(проверяем обе кнопки. параметризованы по имени класса)
     public void clickButtonOrder(String text){
-        //локатор для поиска кнопки
-        By buttonOrder=By.xpath(".//button[@class='"+text+"']");
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();",driver.findElement(buttonOrder));
-        driver.findElement(buttonOrder).click();
-        //new WebDriverWait(driver, 3).until(driver -> (driver.findElement(name).isDisplayed()));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();",driver.findElement(By.xpath(".//button[@class='"+text+"']")));
+        driver.findElement(By.xpath(".//button[@class='"+text+"']")).click();
 
     }
 
     //метод для выбора даты
     public void selectData(){
         driver.findElement(whenData).click();
-        By d=By.xpath(".//div[@aria-label='Choose пятница, 10-е марта 2023 г.']");
-        driver.findElement(d).click();
+        driver.findElement(By.xpath(".//div[@aria-label='Choose пятница, 10-е марта 2023 г.']")).click();
     }
 
     //метод выбора срока аренды
     public void selectTimeRent(String text) {
         driver.findElement(timeRent).click();
-        By timeR = By.xpath(String.format("//*[text()='%s']", text));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(timeR));
-        driver.findElement(timeR).click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(By.xpath(String.format("//*[text()='%s']", text))));
+        driver.findElement(By.xpath(String.format("//*[text()='%s']", text))).click();
     }
 
     //метод нажатия на кнопку да(Оформить заказ?)
@@ -122,4 +116,6 @@ public class OrderPage {
         driver.findElement(yes).click();
         new WebDriverWait(driver, 5).until(driver -> (driver.findElement(isGood).isDisplayed()));
     }
+
 }
+

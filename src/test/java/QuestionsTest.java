@@ -1,4 +1,3 @@
-import Sprint4.Homepage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
@@ -20,9 +19,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
     private final String textO;
 
    private WebDriver driver;
-    String URL="https://qa-scooter.praktikum-services.ru";
 
-    public QuestionsTest(String textV, String textO) {
+   public QuestionsTest(String textV, String textO) {
 
             this.textV = textV;
             this.textO = textO;
@@ -49,7 +47,7 @@ public void initTest(){
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-        driver.get(URL);
+        driver.get("https://qa-scooter.praktikum-services.ru");
     }
     @Test
         public void checkTest() {
